@@ -1,11 +1,13 @@
 ARG NODE_VERSION=10
-FROM ibmcom/ibmjava:8-sdk as java-base
+
+FROM adoptopenjdk:8u222-b10-jdk-hotspot-bionic
+#FROM ibmcom/ibmjava:8-sdk as java-base
 
 FROM node:$NODE_VERSION
-COPY --from=java-base /opt/ibm/java /opt/ibm/java
+#COPY --from=java-base /opt/ibm/java /opt/ibm/java
 
-ENV JAVA_HOME=/opt/ibm/java/jre \
-    PATH=/opt/ibm/java/jre/bin:/opt/ibm/java/bin/:$PATH
+#ENV JAVA_HOME=/opt/ibm/java/jre \
+#    PATH=/opt/ibm/java/jre/bin:/opt/ibm/java/bin/:$PATH
 
 RUN apt-get update && \
   apt-get install -y curl apt-transport-https maven gradle && \
