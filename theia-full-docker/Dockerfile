@@ -98,7 +98,8 @@ RUN curl -sS https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar
     go get -u -v github.com/josharian/impl && \
     go get -u -v github.com/tylerb/gotype-live && \
     go get -u -v github.com/rogpeppe/godef && \
-    go get -u -v golang.org/x/tools/cmd/godoc && \
+    # godoc causing issues ATM, preventing image to build - commenting-out
+    # go get -u -v golang.org/x/tools/cmd/godoc && \
     go get -u -v github.com/zmb3/gogetdoc && \
     go get -u -v golang.org/x/tools/cmd/goimports && \
     go get -u -v sourcegraph.com/sqs/goreturns && \
@@ -181,7 +182,8 @@ ARG GITHUB_TOKEN
 RUN yarn --cache-folder ./ycache && rm -rf ./ycache && \
     NODE_OPTIONS="--max_old_space_size=4096" yarn theia build
 EXPOSE 3000
-ENV SHELL /bin/bash
+ENV SHELL /bin/bash\
+    THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
 
 ENV GOPATH=/home/project
 ENV PATH=$PATH:$GOPATH/bin
